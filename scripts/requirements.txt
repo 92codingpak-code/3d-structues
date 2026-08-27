@@ -1,0 +1,6 @@
+trimesh>=4.4
+numpy>=1.26
+fast-simplification>=0.1.7
+# trimesh uses scipy's sparse matrices to compute vertex normals; without it
+# it falls back to a much slower dense path on full-size BodyParts3D meshes.
+scipy>=1.11
