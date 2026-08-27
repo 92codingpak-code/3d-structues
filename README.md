@@ -29,8 +29,9 @@ Supabase (Postgres + Storage) · Tailwind CSS.
 npm install
 ```
 
-The viewer reads `public/models/manifest.json`, which is **generated** and not
-committed — run the asset pipeline once before starting the dev server, then:
+The processed models in `public/models/` **are committed**, so the app runs
+straight after a clone — the deployed site serves them as static files. You
+only need the asset pipeline below when adding or reprocessing structures.
 
 ```bash
 npm run dev
@@ -148,7 +149,7 @@ safe to re-run after regenerating assets. It needs `SUPABASE_SERVICE_ROLE_KEY`
 ```
 scripts/                    asset pipeline + DB seed (standalone, not part of the app)
 assets/BodyParts3D_data/    raw STL input (gitignored)
-public/models/              generated .glb + manifest.json (gitignored)
+public/models/              generated .glb + manifest.json (committed; CC BY-SA)
 public/draco/               self-hosted Draco decoder
 supabase/migrations/        schema
 src/components/viewer/      r3f canvas, scene, per-model loading, camera rig
