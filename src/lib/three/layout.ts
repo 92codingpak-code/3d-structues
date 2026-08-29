@@ -41,17 +41,22 @@ export function layoutStructures(manifest: Manifest, columns = 3): PlacedStructu
   const sizes = manifest.map(dimensions);
   const largestExtent = Math.max(...sizes.flat());
   const cell = largestExtent * CELL_PADDING;
-  const rows = Math.ceil(manifest.length / columns);
+
+  // Never reserve more columns than there are structures, or a group with a
+  // single bone lays it out in column 0 of a three-wide grid and it sits off
+  // to the left instead of centred. Most groups hold one or two structures.
+  const effectiveColumns = Math.min(columns, manifest.length);
+  const rows = Math.ceil(manifest.length / effectiveColumns);
 
   return manifest.map((entry, index) => {
-    const column = index % columns;
-    const row = Math.floor(index / columns);
+    const column = index % effectiveColumns;
+    const row = Math.floor(index / effectiveColumns);
     const [cx, cy, cz] = center(entry);
 
     return {
       entry,
       position: [
-        (column - (columns - 1) / 2) * cell,
+        (column - (effectiveColumns - 1) / 2) * cell,
         ((rows - 1) / 2 - row) * cell,
         0,
       ],
